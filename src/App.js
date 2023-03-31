@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Register from "./pages/Register/Register";
 
 import "./App.scss";
+import Signin from "./pages/Signin/Signin";
 
 class App extends React.Component {
   constructor(props) {
@@ -32,9 +33,13 @@ class App extends React.Component {
   render() {
     // Create a router with the routes I want to use.
     const router = createBrowserRouter([
+      // {
+      //   path: "/",
+      //   element: <Register />,
+      // },
       {
         path: "/",
-        element: <Register />,
+        element: <Signin />,
       },
     ]);
 

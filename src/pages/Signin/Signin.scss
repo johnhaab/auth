@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$font-family: 'Noto Sans', sans-serif;
+
+.container-sign-in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+    width: 100vw;
+
+    .wrapper-sign-in {
+        max-width: 29.5rem;
+
+        .card-sign-in {
+            border: 1px solid #BDBDBD;
+            border-radius: 1.5rem;
+
+    padding: 3rem 3.5rem;
+
+            .top-sign-in {
+                
+                h1 {
+                    font-size: 18px;
+                    font-weight: 600;
+                    padding-top: 1rem;
+                    color: #333333;
+                }
+            }
+
+            .middle-sign-in {
+                padding-top: 1.5rem;
+
+                .form-sign-in {
+
+                    .sign-in-email {
+                        display: flex;
+                        align-items: center;
+
+                        border: 1px solid #BDBDBD;
+                        color: #828282;
+                        font-size: 1.5rem;
+
+                        padding: .7rem;
+                        border-radius: .5rem;
+
+                        input {
+                            padding-left: .6rem;
+                            border: none;
+                            outline: transparent;
+
+                            &::placeholder {
+                                font-size: 1rem;
+                                font-weight: 100;
+                            }
+                        }
+                    }
+
+                    .sign-in-password {
+                        margin-top: .8rem;
+                        margin-bottom: 1rem;
+                        display: flex;
+                        align-items: center;
+
+                        border: 1px solid #BDBDBD;
+                        color: #828282;
+                        font-size: 1.5rem;
+
+                        padding: .7rem;
+                        border-radius: .5rem;
+
+                        input {
+                            padding-left: .6rem;
+                            border: none;
+                            outline: transparent;
+
+                            &::placeholder {
+                                font-size: 1rem;
+                                font-weight: 100;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .bottom-sign-in {
+                text-align: center;
+
+                button {
+                    border: transparent;
+                    background-color: #2F80ED;
+                    color: #fff;
+                    font-weight: 600;
+                    font-size: 16px;
+                    width: 100%;
+                    padding: .8rem;
+                    border-radius: .5rem;
+                    font-family: $font-family;
+
+                    width: 22rem;
+
+                    cursor: pointer;
+                }
+
+                h3 {
+                    padding-top: 2rem;
+                    padding-bottom: 1rem;
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: #828282;
+                }
+
+                p {
+                    padding-top: 1rem;
+
+                    font-weight: 400;
+                    font-size: 14px;
+                    color: #828282;
+
+                    span {
+                        padding-left: .2rem;
+                        color: #2D9CDB;
+                        text-decoration: none;
+
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
