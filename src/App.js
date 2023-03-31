@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Register from "./pages/Register/Register";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+import "./App.scss";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoaded: false,
+      theme: "light",
+    };
+  }
+
+  // Function to toggle between light and dark mode.
+  toggleTheme = () => {
+    if (this.state.theme === "light") {
+      this.setState({ theme: "dark" });
+    } else {
+      this.setState({ theme: "light" });
+    }
+  };
+
+  componentDidMount() {
+    // WIP: Add a loading screen.
+    this.setState({
+      isLoaded: true,
+    });
+  }
+
+  render() {
+    // Create a router with the routes I want to use.
+    const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <Register />,
+      },
+    ]);
+
+    // If the app is loaded, return the router. Else, return a loading screen.
+    if (this.state.isLoaded === true) {
+      return (
+        <div className={`App ${this.state.theme}`}>
+          <RouterProvider router={router} />
+        </div>
+      );
+    } else {
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <p style={{ paddingTop: "2rem" }}>Loading, please be paitent.</p>
+        </div>
+      );
+    }
+  }
 }
 
 export default App;

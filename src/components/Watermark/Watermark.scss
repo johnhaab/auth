@@ -1,0 +1,12 @@
+.container-watermark {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 1rem;
+    color: #828282;
+    
+    span {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,63 @@
+.container-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1.5rem;
+
+    .google {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: #828282;
+        border: 1px solid #828282;
+        border-radius: 100rem;
+
+        padding: .9rem;
+
+        cursor: pointer;
+    }
+
+    .facebook {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: #828282;
+        border: 1px solid #828282;
+        border-radius: 100rem;
+
+        padding: .9rem;
+
+        cursor: pointer;
+    }
+
+    .twitter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: #828282;
+        border: 1px solid #828282;
+        border-radius: 100rem;
+
+        padding: .9rem;
+
+        cursor: pointer;
+    }
+
+    .github {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: #828282;
+        border: 1px solid #828282;
+        border-radius: 100rem;
+
+        padding: .9rem;
+
+        cursor: pointer;
+    }
+}
