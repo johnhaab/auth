@@ -1,0 +1,36 @@
+
+.container-navbar {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 27px;
+
+    .user-dropdown {
+        display: flex;
+
+        img {
+            width: 32px;
+            border-radius: .3rem;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 12px;
+            padding-left: 11px;
+            display: flex;
+            align-items: center;
+
+            cursor: pointer;
+        }
+
+        .navbar-arrow {
+            color: #333333;
+            font-size: 22px;
+            padding-left: 5px;
+            display: flex;
+            align-items: center;
+
+            cursor: pointer;
+        }
+    }
+}
