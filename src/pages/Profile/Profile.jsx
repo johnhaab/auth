@@ -9,11 +9,13 @@ const Profile = ({ user }) => {
       <section className="profile-navbar">
         <Navbar user={user} />
       </section>
-      {/* <img src={user.profile_picture} alt={user.name} width="250px" />
-      <h1>{user.name}</h1>
-      <p>{user.bio}</p>
-      <p>{user.phone}</p>
-      <p>{user.email}</p> */}
+      <section className="profile-heading">
+        <h1>Personal info</h1>
+        <p>Basic info, like your name and photo</p>
+      </section>
+      <section className="profile-body">
+        <div className="user-profile-card"></div>
+      </section>
     </div>
   );
 };
