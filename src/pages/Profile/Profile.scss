@@ -6,6 +6,10 @@ $main-blk: #333333;
 
 .container-profile {
 
+    .wrapper-fix {
+        max-width: 900px;
+    }
+
     .profile-heading {
         display: flex;
         flex-direction: column;
@@ -21,9 +25,258 @@ $main-blk: #333333;
 
         p {
             padding-top: 10px;
-            padding-bottom: 44px;
             font-size: 18px;
             font-weight: 400;
+        }
+    }
+
+    .profile-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+
+        .fix {
+            width: 850px;
+        }
+
+        .user-profile-card {
+            display: flex;
+            flex-direction: column;
+
+            max-width: 850px;
+            
+            .user-profile-card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 850px;
+                
+                border-top: 1px solid #E0E0E0;
+                border-left: 1px solid #E0E0E0;
+                border-right: 1px solid #E0E0E0;
+                border-bottom: 1px solid #D3D3D3;
+
+                border-top-right-radius: 15px;
+                border-top-left-radius: 15px;
+
+                padding: 2rem 4rem;
+
+                .group-one {
+
+                    h1 {
+                        color: #000000;
+                        font-weight: 400;
+                    }
+                    
+                    p {
+                       color: #828282;
+                       font-size: 13px;
+                       font-weight: 500;
+                       padding-top: 5px;
+                    }
+                }
+
+                .group-two {
+                    padding: .6rem 2rem;
+                    border: 1px solid #828282;
+                    border-radius: 15px;
+
+                    p {
+                        color: #828282;
+                    }
+
+                    cursor: pointer;
+                }
+            }
+
+            .user-profile-card-body {
+                width: 50px;
+                
+                    .user-profile-card-photo {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #D3D3D3;
+    
+                        padding: 2rem 4rem;
+
+                        width: 850px;
+
+                        .wrapper-photo {
+                            display: flex;
+                            align-items: center;
+
+                            // border: 1px solid red;
+        
+                            img {
+                                width: 72px;
+                                border-radius: 10px;
+                            }
+
+                            .wrapper-photo-two {
+
+                                p {
+                                    color: #BDBDBD;
+                                    width: 15rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .user-profile-card-name {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #D3D3D3;
+    
+                        padding: 2rem 4rem;
+
+                        width: 850px;
+
+                        .wrapper-name {
+                            display: flex;
+                            align-items: center;
+
+                            // border: 1px solid red;
+        
+                            h1 {
+                               color: #333333;
+                               font-weight: 500;
+                            }
+
+                            .wrapper-name-two {
+
+                                p {
+                                    color: #BDBDBD;
+                                    width: 15rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .user-profile-card-bio {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #D3D3D3;
+    
+                        padding: 2rem 4rem;
+
+                        width: 850px;
+
+                        .wrapper-bio {
+                            display: flex;
+                            align-items: center;
+
+                            // border: 1px solid red;
+
+                            h1 {
+                               color: #333333;
+                               font-weight: 500;
+                            }
+
+                            .wrapper-bio-two {
+
+                                p {
+                                    color: #BDBDBD;
+                                    width: 15rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .user-profile-card-phone {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #D3D3D3;
+    
+                        padding: 2rem 4rem;
+
+                        width: 850px;
+
+                        .wrapper-phone {
+                            display: flex;
+                            align-items: center;
+
+                            // border: 1px solid red;
+        
+                            h1 {
+                               color: #333333;
+                               font-weight: 500;
+                            }
+                            
+                            .wrapper-phone-two {
+
+                                p {
+                                    color: #BDBDBD;
+                                    width: 15rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .user-profile-card-email {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #D3D3D3;
+    
+                        padding: 2rem 4rem;
+
+                        width: 850px;
+
+                        .wrapper-email {
+                            display: flex;
+                            align-items: center;
+
+                            // border: 1px solid red;
+
+                            h1 {
+                               color: #333333;
+                               font-weight: 500;
+                            }
+
+                            .wrapper-email-two {
+
+                                p {
+                                    color: #BDBDBD;
+                                    width: 15rem;
+                                }
+                            }
+                        }
+                    }
+
+                    .user-profile-card-pass {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #D3D3D3;
+
+                        border-bottom-right-radius: 15px;
+                        border-bottom-left-radius: 15px;
+    
+                        padding: 2rem 4rem;
+
+                        width: 850px;
+
+                        .wrapper-pass {
+                            display: flex;
+                            align-items: center;
+
+                            // border: 1px solid red;
+        
+                            h1 {
+                               color: #333333;
+                               font-weight: 500;
+                            }
+
+                            .wrapper-pass-two {
+
+                                p {
+                                    color: #BDBDBD;
+                                    width: 15rem;
+                                }
+                            }
+                        }
+                    }
+            }
         }
     }
 }
