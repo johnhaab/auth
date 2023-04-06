@@ -11,10 +11,7 @@ const Navbar = ({ user }) => {
     <div className="container-navbar">
       <img src={LogoDark} alt="logo" />
       <div className="user-dropdown">
-        <img
-          src={user.profile_picture}
-          alt={user.name + "'s profile picture"}
-        />
+        <img src={user.profilePicture} alt={user.name + "'s profile picture"} />
         <h1>{user.name}</h1>
         <div className="navbar-arrow">
           <MdArrowDropDown />

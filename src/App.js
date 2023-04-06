@@ -1,10 +1,12 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./util/ProtectedRoute";
 import Register from "./pages/Register/Register";
-import Signin from "./pages/Signin/Signin";
 import Profile from "./pages/Profile/Profile";
 
 import "./App.scss";
+import axios from "axios";
+import Signin from "./pages/Signin/Signin";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,56 +16,217 @@ class App extends React.Component {
       theme: "light",
       data: [],
       error: null,
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
+      registerError: false,
+      registerErrorMsg: [],
+      userInfo: null,
     };
   }
 
   componentDidMount = async () => {
-    // Get data from the backend.
-    await this.getData();
-  };
-
-  // Function to toggle between light and dark mode.
-  toggleTheme = () => {
-    if (this.state.theme === "light") {
-      this.setState({ theme: "dark" });
-    } else {
-      this.setState({ theme: "light" });
+    this.setState({
+      isLoaded: true,
+    });
+    if (localStorage.getItem("token")) {
+      this.getUserInfo();
     }
   };
 
-  // Function to get data from the Backend.
-  getData = () => {
-    console.log("Getting data from the backend");
-    return fetch("http://localhost:5000/user")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ data: data[0] });
-        console.log(this.state.data);
-        // Clear loading screen after needed info is loaded.
-        this.setState({
-          isLoaded: true,
-        });
+  registerUser = async () => {
+    const data = {
+      name: "No name yet...",
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password,
+    };
+
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    };
+
+    await axios
+      .post("http://localhost:5000/api/users/register", data, config)
+      .then((response) => {
+        // Handle success
+        console.log(response.data);
+        window.location.replace("http://localhost:3000/signin");
       })
-      .catch((err) => {
-        console.log(err);
-        this.setState({ error: err });
+      .catch((error) => {
+        // Handle failure
+        const errorMessages = Object.values(error.response.data);
+        this.setState({
+          registerError: true,
+          registerErrorMsg: errorMessages,
+        });
+        console.log(this.state.registerErrorMsg);
       });
+
+    await console.log(this.state.registerErrorMsg);
+  };
+
+  loginUser = async () => {
+    const data = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    };
+
+    await axios
+      .post("http://localhost:5000/api/users/login", data, config)
+      .then(async (response) => {
+        console.log("success!");
+        console.log(response.data);
+        localStorage.setItem("token", response.data.token);
+        const badToken = response.data.token;
+        const token = badToken.split(" ")[1];
+
+        // Fetch user info using token
+        await axios;
+        axios
+          .get(`http://localhost:5000/api/users/profile?token=${token}`)
+          .then((response) => {
+            const {
+              id,
+              name,
+              email,
+              bio,
+              password,
+              phoneNumber,
+              joinedDate,
+              profilePicture,
+            } = response.data;
+            this.setState({
+              userInfo: {
+                id,
+                name,
+                email,
+                bio,
+                password,
+                phoneNumber,
+                joinedDate,
+                profilePicture,
+              },
+            });
+            window.location.replace("http://localhost:3000/profile");
+          })
+          .catch((error) => {
+            console.log("Error fetching user info: " + error);
+          });
+        console.log(this.state.userInfo);
+      })
+
+      .catch((error) => {
+        console.log("error!" + error);
+        // Handle failure
+        // const errorMessages = Object.values(error.response.data);
+        // this.setState({
+        //   registerError: true,
+        //   registerErrorMsg: errorMessages,
+        // });
+        // console.log(this.state.registerErrorMsg);
+      });
+  };
+
+  getUserInfo = async () => {
+    const badToken = localStorage.getItem("token");
+    const token = badToken.split(" ")[1];
+    console.log("your token " + token);
+
+    // Fetch user info using token
+    await axios;
+    axios
+      .get(`http://localhost:5000/api/users/profile?token=${token}`)
+      .then((response) => {
+        const {
+          id,
+          name,
+          email,
+          bio,
+          password,
+          phoneNumber,
+          joinedDate,
+          profilePicture,
+        } = response.data;
+        this.setState({
+          userInfo: {
+            id,
+            name,
+            email,
+            bio,
+            password,
+            phoneNumber,
+            joinedDate,
+            profilePicture,
+          },
+        });
+        console.log(this.state.userInfo);
+        console.log("1");
+      })
+      .catch((error) => {
+        console.log("Error fetching user info: " + error);
+      });
+  };
+
+  // Function to get data from the Backend.
+  getData = () => {};
+
+  updateEmail = (input) => {
+    this.setState({ email: input });
+    console.log(input);
+  };
+
+  updatePass = (input) => {
+    this.setState({ password: input });
+    console.log(input);
+  };
+
+  updatePass2 = (input) => {
+    this.setState({ password2: input });
   };
 
   render() {
     // Create a router with the routes I want to use.
     const router = createBrowserRouter([
-      // {
-      //   path: "/",
-      //   element: <Register />,
-      // },
-      // {
-      //   path: "/",
-      //   element: <Signin />,
-      // },
       {
         path: "/",
-        element: <Profile user={this.state.data} />,
+        element: (
+          <Register
+            updateEmail={this.updateEmail}
+            updatePass={this.updatePass}
+            updatePass2={this.updatePass2}
+            registerUserFunction={this.registerUser}
+            registerError={this.state.registerError}
+            registerErrorMsg={this.state.registerErrorMsg}
+          />
+        ),
+      },
+      {
+        path: "/signin",
+        element: (
+          <Signin
+            loginUser={this.loginUser}
+            updateEmail={this.updateEmail}
+            updatePass={this.updatePass}
+          />
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <ProtectedRoute userInfo={this.state.userInfo}>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
     ]);
 

@@ -1,34 +1,30 @@
 const express = require("express");
-const { connectToDb, getDb } = require("./db.js");
-const cors = require("cors");
-
-// init app & middleware
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const users = require("./routes/api/users");
 const app = express();
+const cors = require("cors");
 app.use(cors());
-const PORT = process.env.PORT || 5000;
-
-//db connection
-let db;
-connectToDb((err) => {
-  if (!err) {
-    app.listen(PORT, () => {
-      console.log(`app is running on port ${PORT}`);
-    });
-    db = getDb();
-  }
-});
-
-// routes
-app.get("/user", (req, res) => {
-  let user = [];
-  db.collection("users")
-    .find()
-    .sort({ name: 1 })
-    .forEach((res) => user.push(res))
-    .then(() => {
-      res.status(200).json(user);
-    })
-    .catch(() => {
-      res.status(500).json({ err: "Could not fetch the documents." });
-    });
-});
+// Bodyparser middleware
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use(bodyParser.json());
+// DB Config
+const db = require("./config/keys").mongoURI;
+// Connect to MongoDB
+mongoose
+  .connect(db, { useNewUrlParser: true })
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch((err) => console.log(err));
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// Routes
+app.use("/api/users", users);
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server up and running on port ${port} !`));

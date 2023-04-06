@@ -7,10 +7,11 @@ import Socials from "../../components/Socials/Socials";
 
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 import "./Signin.scss";
 
-const Signin = () => {
+const Signin = ({ loginUser, updateEmail, updatePass }) => {
   return (
     <div className="container-sign-in">
       <div className="wrapper-sign-in">
@@ -24,21 +25,31 @@ const Signin = () => {
               {/* TODO: Convert form types back to email & password instead of text */}
               <div className="sign-in-email">
                 <MdEmail />
-                <input type="text" placeholder="Email" />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  onChange={(e) => updateEmail(e.target.value)}
+                />
               </div>
               <div className="sign-in-password">
                 <IoMdLock />
-                <input type="text" placeholder="Password" />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => updatePass(e.target.value)}
+                />
               </div>
             </div>
           </section>
           <section className="bottom-sign-in">
-            <button>Login</button>
+            <button onClick={() => loginUser()}>Login</button>
             <h3>or continue with these social profiles</h3>
             <Socials />
             <p>
-              Already a member?
-              <span>Login</span>
+              Don’t have an account yet?
+              <Link to="/">
+                <span>Register</span>
+              </Link>
             </p>
           </section>
         </div>
