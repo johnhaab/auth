@@ -15,12 +15,16 @@ const Profile = ({ userInfo }) => {
   // };
 
   const formatPass = (pass) => {
-    const maxLength = 46;
+    const maxLength = 20;
     let formattedString = pass.charAt(0).toUpperCase() + pass.slice(1);
     if (formattedString.length > maxLength) {
       formattedString = formattedString.slice(0, maxLength) + "...";
     }
-    return formattedString;
+    var hiddenString = "";
+    for (var i = 0; i < formattedString.length; i++) {
+      hiddenString += "*";
+    }
+    return hiddenString;
   };
 
   return (

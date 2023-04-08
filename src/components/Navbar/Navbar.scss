@@ -7,6 +7,7 @@
 
     .user-dropdown {
         display: flex;
+        cursor: pointer;
 
         img {
             width: 32px;
@@ -20,7 +21,9 @@
             display: flex;
             align-items: center;
 
-            cursor: pointer;
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
         }
 
         .navbar-arrow {
@@ -30,7 +33,9 @@
             display: flex;
             align-items: center;
 
-            cursor: pointer;
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
         }
     }
 }
