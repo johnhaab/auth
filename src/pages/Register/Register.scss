@@ -8,9 +8,13 @@ $font-family: 'Noto Sans', sans-serif;
     align-items: center;
 
     height: 100vh;
-    width: 100vw;
 
     position: relative;
+
+    @media screen and (max-width: 768px) {
+        height: 100%;
+        width: 100%;
+    }
 
     .wrapper-register {
         max-width: 29.5rem;
@@ -19,7 +23,12 @@ $font-family: 'Noto Sans', sans-serif;
             border: 1px solid #BDBDBD;
             border-radius: 1.5rem;
 
-             padding: 3rem 3.5rem;
+            padding: 3rem 3.5rem;
+
+            @media screen and (max-width: 768px) {
+                padding: 2rem 1rem;
+                border: transparent;
+            }
 
             .top-register {
                 
@@ -131,6 +140,16 @@ $font-family: 'Noto Sans', sans-serif;
                         text-decoration: none;
 
                         cursor: pointer;
+                    }
+                }
+
+                @media screen and (max-width: 768px) {
+                    h3 {
+                        padding-bottom: 2rem;
+                    }
+
+                    p {
+                        padding-top: 2rem;
                     }
                 }
             }

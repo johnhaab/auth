@@ -13,6 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoaded: false,
+      authenticated: false,
       theme: "light",
       data: [],
       error: null,
@@ -23,18 +24,25 @@ class App extends React.Component {
       registerError: false,
       registerErrorMsg: [],
       userInfo: null,
+      isNavDropDownOpen: false,
     };
   }
 
+  // Function get ran in here every time the component mounts aka everytime the website loads.
   componentDidMount = async () => {
     this.setState({
       isLoaded: true,
     });
     this.getUserInfo();
     this.checkIfUserIsLoggedIn();
-    // this.signOutUser();
   };
 
+  // Function that has two variables, one called data and one called config
+  // data is an object that has the users name, email, password, and password2
+  // and config is an object that has the headers set to "Content-Type":
+  // "application/x-www-form-urlencoded", as per my db requirements. Then it
+  // makes a post request to the backend and it recives a response. If the
+  // response is successful, then it redirects the user to the signin page.
   registerUser = async () => {
     const data = {
       name: "No name yet...",
@@ -213,6 +221,18 @@ class App extends React.Component {
     }
   };
 
+  checkIfNavDropDownIsOpen = () => {
+    if (this.state.isNavDropDownOpen === true) {
+      this.setState({ isNavDropDownOpen: false });
+    } else {
+      this.setState({ isNavDropDownOpen: true });
+    }
+  };
+
+  closeNavDropDownOnFocus = () => {
+    this.setState({ isNavDropDownOpen: false });
+  };
+
   // Function(1/3) to take the email input from the register & and update the state
   // depending on what the user types in.
   updateEmail = (input) => {
@@ -262,7 +282,13 @@ class App extends React.Component {
       {
         path: "/profile",
         element: (
-          <ProtectedRoute userInfo={this.state.userInfo}>
+          <ProtectedRoute
+            userInfo={this.state.userInfo}
+            isNavDropDownOpen={this.state.isNavDropDownOpen}
+            checkIfNavDropDownIsOpen={this.checkIfNavDropDownIsOpen}
+            signOutUser={this.signOutUser}
+            closeNavDropDownOnFocus={this.closeNavDropDownOnFocus}
+          >
             <Profile />
           </ProtectedRoute>
         ),

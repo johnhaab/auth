@@ -10,6 +10,12 @@ $main-blk: #333333;
         max-width: 900px;
     }
 
+    .drop-down-profile {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 1rem;
+    }
+
     .profile-heading {
         display: flex;
         flex-direction: column;
@@ -37,6 +43,10 @@ $main-blk: #333333;
         align-items: center;
         height: 100vh;
 
+        @media screen and (max-width: 768px) {
+            // border: 1px solid red;
+        }
+
         .fix {
             width: 850px;
         }
@@ -63,6 +73,20 @@ $main-blk: #333333;
 
                 padding: 2rem 4rem;
 
+                @media screen and (max-width: 768px) {
+                    border-top: transparent;
+                    border-left: transparent;
+                    border-right: transparent;
+                    border-bottom: transparent;
+
+                    padding: 0rem 1.75rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    width: 100vw;
+                }
+
                 .group-one {
 
                     h1 {
@@ -75,6 +99,12 @@ $main-blk: #333333;
                        font-size: 13px;
                        font-weight: 500;
                        padding-top: 5px;
+                    }
+
+                    @media screen and (max-width: 768px) {
+                        p {
+                            width: 70%;
+                        }
                     }
                 }
 
@@ -98,10 +128,15 @@ $main-blk: #333333;
                         border-left: 1px solid #E0E0E0;
                         border-right: 1px solid #E0E0E0;
                         border-bottom: 1px solid #D3D3D3;
-    
+
                         padding: 2rem 4rem;
 
                         width: 850px;
+
+                        @media screen and (max-width: 768px) {
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
 
                         .wrapper-photo {
                             display: flex;
@@ -121,6 +156,29 @@ $main-blk: #333333;
                                     width: 15rem;
                                 }
                             }
+
+                            @media screen and (max-width: 768px) {
+                                justify-content: space-between;
+
+                                img {
+                                    width: 50px;
+                                }
+                                
+
+                                .wrapper-photo-two {
+
+                                    p {
+                                        width: 4rem;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
                         }
                     }
 
@@ -128,6 +186,13 @@ $main-blk: #333333;
                         border-left: 1px solid #E0E0E0;
                         border-right: 1px solid #E0E0E0;
                         border-bottom: 1px solid #D3D3D3;
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
     
                         padding: 2rem 4rem;
 
@@ -151,6 +216,23 @@ $main-blk: #333333;
                                     width: 15rem;
                                 }
                             }
+
+                            @media screen and (max-width: 768px) {
+                                justify-content: space-between;
+
+                                h1 {
+                                    font-size: 13px;
+                                }
+                                
+                                .wrapper-name-two {
+
+                                    p {
+                                        width: 4rem;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -158,6 +240,14 @@ $main-blk: #333333;
                         border-left: 1px solid #E0E0E0;
                         border-right: 1px solid #E0E0E0;
                         border-bottom: 1px solid #D3D3D3;
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+    
     
                         padding: 2rem 4rem;
 
@@ -181,6 +271,23 @@ $main-blk: #333333;
                                     width: 15rem;
                                 }
                             }
+
+                            @media screen and (max-width: 768px) {
+                                justify-content: space-between;
+
+                                h1 {
+                                    font-size: 13px;
+                                }
+
+                                .wrapper-bio-two {
+
+                                    p {
+                                        width: 4rem;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -188,6 +295,13 @@ $main-blk: #333333;
                         border-left: 1px solid #E0E0E0;
                         border-right: 1px solid #E0E0E0;
                         border-bottom: 1px solid #D3D3D3;
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
     
                         padding: 2rem 4rem;
 
@@ -211,6 +325,23 @@ $main-blk: #333333;
                                     width: 15rem;
                                 }
                             }
+
+                            @media screen and (max-width: 768px) {
+                                justify-content: space-between;
+
+                                h1 {
+                                    font-size: 13px;
+                                }
+
+                                .wrapper-phone-two {
+
+                                    p {
+                                        width: 4rem;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -218,6 +349,13 @@ $main-blk: #333333;
                         border-left: 1px solid #E0E0E0;
                         border-right: 1px solid #E0E0E0;
                         border-bottom: 1px solid #D3D3D3;
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
     
                         padding: 2rem 4rem;
 
@@ -241,6 +379,23 @@ $main-blk: #333333;
                                     width: 15rem;
                                 }
                             }
+
+                            @media screen and (max-width: 768px) {
+                                justify-content: space-between;
+
+                                h1 {
+                                    font-size: 13px;
+                                }
+
+                                .wrapper-email-two {
+
+                                    p {
+                                        width: 4rem;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -251,6 +406,13 @@ $main-blk: #333333;
 
                         border-bottom-right-radius: 15px;
                         border-bottom-left-radius: 15px;
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
     
                         padding: 2rem 4rem;
 
@@ -272,6 +434,23 @@ $main-blk: #333333;
                                 p {
                                     color: #BDBDBD;
                                     width: 15rem;
+                                }
+                            }
+
+                            @media screen and (max-width: 768px) {
+                                justify-content: space-between;
+
+                                h1 {
+                                    font-size: 13px;
+                                }
+
+                                .wrapper-pass-two {
+
+                                    p {
+                                        width: 4rem;
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                    }
                                 }
                             }
                         }

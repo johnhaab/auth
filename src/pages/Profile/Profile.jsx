@@ -1,10 +1,17 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Watermark from "../../components/Watermark/Watermark";
+import NavDropDown from "../../components/NavDropDown/NavDropDown";
 
 import "./Profile.scss";
 
-const Profile = ({ userInfo }) => {
+const Profile = ({
+  userInfo,
+  isNavDropDownOpen,
+  checkIfNavDropDownIsOpen,
+  signOutUser,
+  closeNavDropDownOnFocus,
+}) => {
   // const formatBio = (bio) => {
   //   const maxLength = 46;
   //   let formattedString = bio.charAt(0).toUpperCase() + bio.slice(1);
@@ -31,9 +38,20 @@ const Profile = ({ userInfo }) => {
     <div className="container-profile">
       {userInfo ? (
         <>
-          <section className="profile-navbar">
+          <section
+            className="profile-navbar"
+            onClick={checkIfNavDropDownIsOpen}
+          >
             <Navbar user={userInfo} />
           </section>
+          {isNavDropDownOpen === true ? (
+            <div className="drop-down-profile">
+              <NavDropDown
+                signOutUser={signOutUser}
+                closeNavDropDownOnFocus={closeNavDropDownOnFocus}
+              />
+            </div>
+          ) : null}
 
           <section className="profile-heading">
             <h1>Personal info</h1>
