@@ -9,6 +9,8 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
+// Auth functions
+const authenticate = require("../../util/authenticate")
 
 router.post("/login", (req, res) => {
   // Form validation
@@ -122,5 +124,10 @@ router.get("/profile", async (req, res) => {
     return res.status(401).json({ error: "Invalid token" });
   }
 });
+
+router.get('/auth', authenticate, (req, res) => {
+    res.json({ isAuthenticated: true });
+  });
+  
 
 module.exports = router;
