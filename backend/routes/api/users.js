@@ -9,6 +9,16 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
+const authenticate = require("../../validation/authenticate");
+
+router.get("/auth", authenticate, (req, res) => {
+  res.json({ isAuthenticated: true });
+});
+
+router.get("/auth/logout", (req, res) => {
+  res.clearCookie("sessionToken");
+  res.json({ message: "Logged out successfully" });
+});
 
 router.post("/login", (req, res) => {
   // Form validation
@@ -42,10 +52,28 @@ router.post("/login", (req, res) => {
             expiresIn: 31556926, // 1 year in seconds
           },
           (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token,
-            });
+            if (err) {
+              // Handle the error
+              console.log(err + "// : // : // : error signing token");
+              return;
+            }
+
+            const cookieOptions = {
+              httpOnly: false,
+              sameSite: "strict",
+              secure: process.env.NODE_ENV === "production",
+              maxAge: 31556926 * 1000, // 1 year in milliseconds
+              path: "/",
+            };
+
+            const cookie = `sessionToken=${token}; Path=/; SameSite=Strict; Max-Age=${
+              cookieOptions.maxAge
+            };${cookieOptions.secure ? "Secure" : ""}`;
+
+            res.setHeader("Set-Cookie", cookie);
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+
+            res.json({ success: true, token: `Bearer ${token}`, user: user });
           }
         );
       } else {
@@ -88,39 +116,28 @@ router.post("/register", (req, res) => {
   });
 });
 
-// GET user profile
-router.get("/profile", async (req, res) => {
-  const userToken = req.query.token;
-  if (!userToken) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  try {
-    const decoded = jwt.verify(userToken, keys.secretOrKey);
-    const userId = decoded.id;
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    // Return user data
-    res.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      bio: user.bio,
-      profilePicture: user.profilePicture,
-      joinedDate: user.joinedDate,
-      phoneNumber: user.phone,
-      password: user.password,
-
-      // Add any other user data you want to expose here
+// Add a new route for the user profile
+router.get("/profile", authenticate, (req, res) => {
+  User.findById(req.user.id)
+    .then((user) => {
+      if (user) {
+        res.json({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          bio: user.bio,
+          profilePicture: user.profilePicture,
+          joinedDate: user.joinedDate,
+          phoneNumber: user.phone,
+          password: user.password, // Do not send the password back to the client
+        });
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Error fetching user data" });
     });
-  } catch (err) {
-    console.error(err);
-    return res.status(401).json({ error: "Invalid token" });
-  }
 });
 
 module.exports = router;

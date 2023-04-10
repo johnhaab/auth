@@ -7,13 +7,14 @@ import Profile from "./pages/Profile/Profile";
 import "./App.scss";
 import axios from "axios";
 import Signin from "./pages/Signin/Signin";
+import Cookies from "js-cookie";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
-      authenticated: false,
+      isLoggedIn: false,
       theme: "light",
       data: [],
       error: null,
@@ -35,6 +36,7 @@ class App extends React.Component {
     });
     this.getUserInfo();
     this.checkIfUserIsLoggedIn();
+    //this.checkSessionToken();
   };
 
   // Function that has two variables, one called data and one called config
@@ -94,70 +96,69 @@ class App extends React.Component {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
+      withCredentials: true,
     };
 
     await axios
-      .post("http://localhost:5000/api/users/login", data, config)
+      .post("http://localhost:5000/api/users/login", data, config, {
+        withCredentials: true,
+      })
       .then(async (response) => {
-        console.log("success!");
-        console.log(response.data);
-        localStorage.setItem("token", response.data.token);
-        const badToken = response.data.token;
-        const token = badToken.split(" ")[1];
+        console.log("successfull login!");
 
         // This is the api call that fetches the users info from the backend.
-        await axios;
-        axios
-          .get(`http://localhost:5000/api/users/profile?token=${token}`)
-          .then((response) => {
-            const {
-              id,
-              name,
-              email,
-              bio,
-              password,
-              phoneNumber,
-              joinedDate,
-              profilePicture,
-            } = response.data;
-            this.setState({
-              userInfo: {
-                id,
-                name,
-                email,
-                bio,
-                password,
-                phoneNumber,
-                joinedDate,
-                profilePicture,
-              },
-            });
-            window.location.replace("http://localhost:3000/profile");
-          })
-          .catch((error) => {
-            console.log("Error fetching user info: " + error);
-          });
-        console.log(this.state.userInfo);
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/api/users/profile",
+            {
+              withCredentials: true, // Include the session token cookie in the request
+            }
+          );
+
+          const userProfile = response.data;
+          console.log("loginUser", userProfile);
+          this.setState({ userInfo: userProfile });
+          this.setState({ isLoggedIn: true });
+          window.location.replace("http://localhost:3000/profile");
+        } catch (error) {
+          console.error(error.response.data);
+        }
       })
 
       .catch((error) => {
         console.log("error!" + error);
-        // Handle failure
-        // const errorMessages = Object.values(error.response.data);
-        // this.setState({
-        //   registerError: true,
-        //   registerErrorMsg: errorMessages,
-        // });
-        // console.log(this.state.registerErrorMsg);
       });
   };
 
   // Function that signs the user out, it removes the token from localStorage
   // and then redirects the user to the signin page.
   signOutUser = async () => {
-    if (localStorage.getItem("token")) {
-      localStorage.removeItem("token");
-      window.location.replace("http://localhost:3000/signin");
+    console.log("signOutUser");
+    await axios
+      .get("http://localhost:5000/api/users/auth/logout", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        localStorage.removeItem("signedIn");
+        window.location.replace("http://localhost:3000/signin");
+      })
+      .catch((error) => {});
+  };
+
+  checkSessionToken = async () => {
+    const token = Cookies.get("sessionToken");
+    const expirationTime = Cookies.get("sessionExpiration");
+
+    if (token && expirationTime && Date.now() < Number(expirationTime)) {
+      console.log("Token is valid");
+      return true;
+    } else {
+      console.log("Token is invalid");
+      this.setState({ isLoggedIn: false });
+      Cookies.remove("sessionToken");
+      localStorage.removeItem("signedIn");
+      return false;
     }
   };
 
@@ -166,42 +167,22 @@ class App extends React.Component {
   // it makes a request to the database to get the user info and then
   // sets the state of userInfo to the response data.
   getUserInfo = async () => {
-    const badToken = localStorage.getItem("token");
-    const token = badToken.split(" ")[1];
-    console.log("your token " + token);
-
     // Fetch user info using token
-    await axios;
-    axios
-      .get(`http://localhost:5000/api/users/profile?token=${token}`)
-      .then((response) => {
-        const {
-          id,
-          name,
-          email,
-          bio,
-          password,
-          phoneNumber,
-          joinedDate,
-          profilePicture,
-        } = response.data;
-        this.setState({
-          userInfo: {
-            id,
-            name,
-            email,
-            bio,
-            password,
-            phoneNumber,
-            joinedDate,
-            profilePicture,
-          },
-        });
-        console.log("sucessfully fetched user info!");
-      })
-      .catch((error) => {
-        console.log("Error fetching user info: " + error);
-      });
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/users/profile",
+        {
+          withCredentials: true, // Include the session token cookie in the request
+        }
+      );
+
+      const userProfile = response.data;
+      console.log("getUserInfo", userProfile);
+      this.setState({ userInfo: userProfile });
+      this.setState({ isLoggedIn: true });
+    } catch (error) {
+      console.error(error.response.data);
+    }
   };
 
   // Function to check if the user is logged in, the way I am doing that
@@ -209,15 +190,32 @@ class App extends React.Component {
   // storage and depending on if they do they get logged in and redirected
   // to /profile and can view their info if there is no token it will redirect
   // to / which is the register page.
-  checkIfUserIsLoggedIn = () => {
-    if ("token" in localStorage) {
-      if (window.location.href !== "http://localhost:3000/profile") {
-        window.location.replace("http://localhost:3000/profile");
+  checkIfUserIsLoggedIn = async () => {
+    console.log(this.state.userInfo);
+    try {
+      const response = await axios.get("http://localhost:5000/api/users/auth", {
+        withCredentials: true,
+      });
+      const { isAuthenticated } = response.data;
+      console.log(isAuthenticated);
+
+      if (isAuthenticated) {
+        // The user has a valid session token in their cookies
+        this.setState({ isLoggedIn: true });
+        localStorage.setItem("signedIn", "true");
+        await this.getUserInfo();
+        console.log("user is logged in!");
+        if (window.location.pathname !== "/profile") {
+          window.location.replace("http://localhost:3000/profile");
+        }
+      } else {
+        this.setState({ isLoggedIn: false });
+        localStorage.removeItem("signedIn");
+        console.log("failed to log in!");
+        // The user does not have a valid session token in their cookies
       }
-    } else {
-      if (window.location.href !== "http://localhost:3000/") {
-        window.location.replace("http://localhost:3000/");
-      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -237,13 +235,11 @@ class App extends React.Component {
   // depending on what the user types in.
   updateEmail = (input) => {
     this.setState({ email: input });
-    console.log(input);
   };
 
   // Function(2/3)
   updatePass = (input) => {
     this.setState({ password: input });
-    console.log(input);
   };
 
   // Function(3/3)
@@ -288,6 +284,8 @@ class App extends React.Component {
             checkIfNavDropDownIsOpen={this.checkIfNavDropDownIsOpen}
             signOutUser={this.signOutUser}
             closeNavDropDownOnFocus={this.closeNavDropDownOnFocus}
+            isLoggedIn={this.state.isLoggedIn}
+            path="/profile"
           >
             <Profile />
           </ProtectedRoute>

@@ -1,9 +1,4 @@
-import { Navigate } from "react-router-dom";
 import Profile from "../pages/Profile/Profile";
-
-function isAuthenticated() {
-  return localStorage.getItem("token") !== null;
-}
 
 function ProtectedRoute({
   children,
@@ -12,10 +7,9 @@ function ProtectedRoute({
   checkIfNavDropDownIsOpen,
   signOutUser,
   closeNavDropDownOnFocus,
+  isLoggedIn,
 }) {
-  const isLoggedIn = isAuthenticated();
-
-  return isLoggedIn ? (
+  return (
     <Profile
       userInfo={userInfo}
       isNavDropDownOpen={isNavDropDownOpen}
@@ -23,8 +17,6 @@ function ProtectedRoute({
       signOutUser={signOutUser}
       closeNavDropDownOnFocus={closeNavDropDownOnFocus}
     />
-  ) : (
-    <Navigate to="/signin" />
   );
 }
 

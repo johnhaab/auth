@@ -5,7 +5,15 @@ const passport = require("passport");
 const users = require("./routes/api/users");
 const app = express();
 const cors = require("cors");
-app.use(cors());
+const cookieParser = require("cookie-parser");
+
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with your client's origin
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
