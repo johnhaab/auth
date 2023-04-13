@@ -4,9 +4,9 @@ const keys = require("../config/keys");
 
 const authenticate = (req, res, next) => {
   // Retrieve the token from the HttpOnly cookie
-  const token = req.cookies.sessionToken;
+  const token = req.cookies.accessToken;
 
-  // Check if the token exists
+  // Check if the token exist
   if (!token) {
     return res.status(401).json({ message: "No token, authorization denied" });
   }

@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Watermark from "../../components/Watermark/Watermark";
 import NavDropDown from "../../components/NavDropDown/NavDropDown";
+import { Link } from "react-router-dom";
 
 import "./Profile.scss";
 
@@ -12,15 +13,6 @@ const Profile = ({
   signOutUser,
   closeNavDropDownOnFocus,
 }) => {
-  // const formatBio = (bio) => {
-  //   const maxLength = 46;
-  //   let formattedString = bio.charAt(0).toUpperCase() + bio.slice(1);
-  //   if (formattedString.length > maxLength) {
-  //     formattedString = formattedString.slice(0, maxLength) + "...";
-  //   }
-  //   return formattedString;
-  // };
-
   const formatPass = (pass) => {
     const maxLength = 20;
     let formattedString = pass.charAt(0).toUpperCase() + pass.slice(1);
@@ -65,9 +57,11 @@ const Profile = ({
                   <h1>Profile</h1>
                   <p>Some info may be visible to other people</p>
                 </div>
-                <div className="group-two">
-                  <p>Edit</p>
-                </div>
+                <Link to="/settings" style={{ textDecoration: "none" }}>
+                  <div className="group-two">
+                    <p>Edit</p>
+                  </div>
+                </Link>
               </div>
               <div className="user-profile-card-body">
                 <section className="user-profile-card-photo">
@@ -105,9 +99,9 @@ const Profile = ({
                       <p>PHONE</p>
                     </div>
                     <h1>
-                      {userInfo.phoneNumber === null
+                      {userInfo.phone === null
                         ? "No phone number added yet..."
-                        : userInfo.phoneNumber}
+                        : userInfo.phone}
                     </h1>
                   </div>
                 </section>

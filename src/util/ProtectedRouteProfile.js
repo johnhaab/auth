@@ -1,6 +1,7 @@
 import Profile from "../pages/Profile/Profile";
+import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({
+function ProtectedRouteProfile({
   children,
   userInfo,
   isNavDropDownOpen,
@@ -20,4 +21,4 @@ function ProtectedRoute({
   );
 }
 
-export default ProtectedRoute;
+export default ProtectedRouteProfile;

@@ -1,0 +1,387 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$font-family: 'Noto Sans', sans-serif;
+
+$main-blk: #333333;
+
+.container-settings {
+
+    .wrapper-fix {
+        max-width: 900px;
+    }
+
+    .settings-navbar {
+        padding-bottom: 4rem;
+    }
+
+    .drop-down-settings {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 1rem;
+    }
+
+    .settings-heading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding-top: 63px;
+    }
+        .settings-go-back {
+            display: flex;
+            font-size: 18px;
+            font-weight: 400;
+            color: #2D9CDB;
+            cursor: pointer;
+            transform: translate(0, -20px);
+
+            .arrow-left-back {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+    .settings-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+
+        @media screen and (max-width: 768px) {
+            // border: 1px solid red;
+        }
+        
+
+        .fix {
+            width: 850px;
+
+            padding-bottom: 2rem;
+        }
+
+        .user-settings-card {
+            display: flex;
+            flex-direction: column;
+
+            max-width: 850px;
+            
+            .user-settings-card-header {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 850px;
+                
+                border-top: 1px solid #E0E0E0;
+                border-left: 1px solid #E0E0E0;
+                border-right: 1px solid #E0E0E0;
+
+                border-top-right-radius: 15px;
+                border-top-left-radius: 15px;
+
+                padding: 2rem 4rem;
+
+                @media screen and (max-width: 768px) {
+                    border-top: transparent;
+                    border-left: transparent;
+                    border-right: transparent;
+                    border-bottom: transparent;
+
+                    padding: 0rem 1.75rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    width: 100vw;
+                }
+
+                h1 {                    
+                    font-size: 24px;
+                    font-weight: 400;
+                }
+
+                p {
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: #828282;
+                }
+            }
+
+            .user-settings-card-body {
+                width: 50px;
+                
+                    .user-settings-card-photo {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+
+                        padding: 0rem 4rem;
+
+                        width: 850px;
+
+                        @media screen and (max-width: 768px) {
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+
+                        .user-settings-card-photo-container {
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            
+                            p {
+                                font-size: 13px;
+                                font-weight: 500;
+                                color: #828282;
+
+                                padding-left: 28px;
+
+                                cursor: pointer;
+                            }
+                            
+                            .user-settings-card-photo-container-wrapper {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                cursor: pointer;
+                            
+                                .camera-for-pic {
+                                    position: absolute;
+                                    color: #fff;
+                                    width: 20px;
+                                    height: 18px;
+                                    box-shadow: rgba(100, 100, 111, 1) 0px 7px 29px 2px;
+                                    display: block !important;
+                                    z-index: 9999;
+                                }
+
+                                img {
+                                    width: 72px;
+                                    border-radius: 10px;
+                                    border: 1px solid #828282;
+                                    filter: brightness(0.95);
+                                }   
+                            }
+                        }
+
+                            @media screen and (max-width: 768px) {
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                        }
+                    }
+
+                    .user-settings-card-name {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+
+                        padding: 0rem 4rem;
+                        width: 850px;
+
+                        p {
+                            color: #4F4F4F;
+                            font-size: 13px;
+                            font-weight: 500;
+                            padding-bottom: 4px;
+                            padding-top: 32px;
+                        }
+
+                        input {
+                            padding-left: 15px;
+                            max-width: 400px;
+                            height: 52px;
+                            width: 100%;
+                            color: #828282;
+                            font-size: 13px;
+                            font-weight: 500;
+                            border: 1px solid #828282;
+                            border-radius: 12px;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+                    }
+
+                    .user-settings-card-bio {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+
+                        padding: 0rem 4rem;
+                        width: 850px;
+
+                        p {
+                            color: #4F4F4F;
+                            font-size: 13px;
+                            font-weight: 500;
+                            padding-bottom: 4px;
+                            padding-top: 32px;
+                        }
+
+                        input {
+                            padding-left: 15px;
+                            max-width: 400px;
+                            height: 52px;
+                            width: 100%;
+                            color: #828282;
+                            font-size: 13px;
+                            font-weight: 500;
+                            border: 1px solid #828282;
+                            border-radius: 12px;
+                            padding-top: 25px;
+                            padding-bottom: 80px;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+                    }
+
+                    .user-settings-card-phone {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+
+                        padding: 0rem 4rem;
+                        width: 850px;
+
+                        p {
+                            color: #4F4F4F;
+                            font-size: 13px;
+                            font-weight: 500;
+                            padding-bottom: 4px;
+                            padding-top: 32px;
+                        }
+
+                        input {
+                            padding-left: 15px;
+                            max-width: 400px;
+                            height: 52px;
+                            width: 100%;
+                            color: #828282;
+                            font-size: 13px;
+                            font-weight: 500;
+                            border: 1px solid #828282;
+                            border-radius: 12px;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+                    }
+
+                    .user-settings-card-email {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+
+                        padding: 0rem 4rem;
+                        width: 850px;
+
+                        p {
+                            color: #4F4F4F;
+                            font-size: 13px;
+                            font-weight: 500;
+                            padding-bottom: 4px;
+                            padding-top: 32px;
+                        }
+
+                        input {
+                            padding-left: 15px;
+                            max-width: 400px;
+                            height: 52px;
+                            width: 100%;
+                            color: #828282;
+                            font-size: 13px;
+                            font-weight: 500;
+                            border: 1px solid #828282;
+                            border-radius: 12px;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+                    }
+
+                    .user-settings-card-pass {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        
+                        padding: 0rem 4rem;
+                        width: 850px;
+
+                        p {
+                            color: #4F4F4F;
+                            font-size: 13px;
+                            font-weight: 500;
+                            padding-bottom: 4px;
+                            padding-top: 32px;
+                        }
+
+                        input {
+                            padding-left: 15px;
+                            max-width: 400px;
+                            height: 52px;
+                            width: 100%;
+                            color: #828282;
+                            font-size: 13px;
+                            font-weight: 500;
+                            border: 1px solid #828282;
+                            border-radius: 12px;
+
+                            margin-bottom: 24px;
+                        }
+
+                        @media screen and (max-width: 768px) {
+                            border-left: transparent;
+                            border-right: transparent;
+                            width: 100vw;
+                            padding: 2rem 1.8rem;
+                        }
+                    }
+
+                    .settings-submit-btn {
+                        border-left: 1px solid #E0E0E0;
+                        border-right: 1px solid #E0E0E0;
+                        border-bottom: 1px solid #E0E0E0;
+
+                        border-bottom-right-radius: 15px;
+                        border-bottom-left-radius: 15px;
+                        
+                        padding: 0rem 4rem;
+                        width: 850px;
+
+                        button {
+                            width: 82px;
+                            height: 38px;
+
+                            border: transparent;
+                            border-radius: 8px;
+
+                            margin-bottom: 24px;
+
+                            background-color: #2F80ED;
+                            color: #FFFFFF;
+
+                            cursor: pointer;
+
+                            &:focus {
+                                outline: transparent;
+                            }
+                        }
+                    }
+            }
+        }
+    }
+}

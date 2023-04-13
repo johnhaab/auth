@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 import "./Signin.scss";
 
-const Signin = ({ loginUser, updateEmail, updatePass }) => {
+const Signin = ({ loginUser, updateEmail, updatePass, twitterAuth }) => {
   return (
     <div className="container-sign-in">
       <div className="wrapper-sign-in">
@@ -44,7 +44,7 @@ const Signin = ({ loginUser, updateEmail, updatePass }) => {
           <section className="bottom-sign-in">
             <button onClick={() => loginUser()}>Login</button>
             <h3>or continue with these social profiles</h3>
-            <Socials />
+            <Socials twitterAuth={twitterAuth} />
             <p>
               Don’t have an account yet?
               <Link to="/">

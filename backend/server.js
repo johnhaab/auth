@@ -6,6 +6,8 @@ const users = require("./routes/api/users");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const keys = require("./config/keys");
 
 app.use(
   cors({
@@ -13,14 +15,40 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(cookieParser());
+
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
     extended: false,
   })
 );
+
 app.use(bodyParser.json());
+
+// parse cookies
+app.use(cookieParser());
+
+app.use(
+  session({
+    name: "sessionToken",
+    secret: keys.cookieKey,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+      httpOnly: false,
+      secure: false,
+      sameSite: "none",
+    },
+  })
+);
+
+// deserialize cookie from the browser
+app.use(passport.session());
+app.use(passport.initialize());
+
 // DB Config
 const db = require("./config/keys").mongoURI;
 // Connect to MongoDB

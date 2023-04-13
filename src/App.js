@@ -1,8 +1,10 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ProtectedRoute from "./util/ProtectedRoute";
+import ProtectedRouteProfile from "./util/ProtectedRouteProfile";
+import ProtectedRouteSettings from "./util/ProtectedRouteSettings";
 import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
+import Settings from "./pages/Settings/Settings";
 
 import "./App.scss";
 import axios from "axios";
@@ -18,14 +20,19 @@ class App extends React.Component {
       theme: "light",
       data: [],
       error: null,
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
       registerError: false,
       registerErrorMsg: [],
       userInfo: null,
       isNavDropDownOpen: false,
+      uploadedProfilePicUrl: null,
+      timeUntilCookieExpires: null,
+      isPhotoCardOpen: false,
+      previewProfilePicture: null,
+      newName: null,
+      newBio: null,
+      newPhone: null,
+      newEmail: null,
+      newPassword: null,
     };
   }
 
@@ -36,7 +43,24 @@ class App extends React.Component {
     });
     this.getUserInfo();
     this.checkIfUserIsLoggedIn();
-    //this.checkSessionToken();
+    // this.checkSessionToken().then((isValidToken) => {
+    //   if (!isValidToken) {
+    //     this.setState({ isLoggedIn: false });
+    //     Cookies.remove("sessionToken");
+    //     localStorage.removeItem("signedIn");
+    //     if (window.location === "/signin") {
+    //       return;
+    //     } else {
+    //       window.location.replace = "/signin";
+    //     }
+    //   }
+    // });
+    console.log("pfp" + this.state.userInfo.profilePicture);
+  };
+
+  handleProfilePictureChange = (input) => {
+    this.setState({ previewProfilePicture: input });
+    console.log(this.state.previewProfilePicture);
   };
 
   // Function that has two variables, one called data and one called config
@@ -104,7 +128,8 @@ class App extends React.Component {
         withCredentials: true,
       })
       .then(async (response) => {
-        console.log("successfull login!");
+        this.setState({ isLoggedIn: true });
+        localStorage.setItem("signedIn", true);
 
         // This is the api call that fetches the users info from the backend.
         try {
@@ -116,9 +141,7 @@ class App extends React.Component {
           );
 
           const userProfile = response.data;
-          console.log("loginUser", userProfile);
           this.setState({ userInfo: userProfile });
-          this.setState({ isLoggedIn: true });
           window.location.replace("http://localhost:3000/profile");
         } catch (error) {
           console.error(error.response.data);
@@ -146,20 +169,45 @@ class App extends React.Component {
       .catch((error) => {});
   };
 
+  // Function that uploads a users image to my img-to-url backend for their profile picture.
+  uploadProfilePic = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    await axios
+      .post("http://209.192.200.84:3000/api/image-to-url/upload", formData)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ uploadedProfilePicUrl: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Same shit
+  uploadProfilePicLink = async (e) => {
+    const input = e.target.value;
+
+    this.setState({ uploadedProfilePicUrl: input });
+  };
+
+  // Function that checks if the user has a token and if the token is still valid.
   checkSessionToken = async () => {
     const token = Cookies.get("sessionToken");
-    const expirationTime = Cookies.get("sessionExpiration");
 
-    if (token && expirationTime && Date.now() < Number(expirationTime)) {
-      console.log("Token is valid");
-      return true;
-    } else {
-      console.log("Token is invalid");
-      this.setState({ isLoggedIn: false });
-      Cookies.remove("sessionToken");
-      localStorage.removeItem("signedIn");
-      return false;
+    if (token) {
+      const sessionTokenCookie = Cookies.getJSON("sessionToken"); // Get the sessionToken cookie as a JSON object
+      const expirationTime = sessionTokenCookie.expires; // Get the expiration time from the cookie object
+
+      if (expirationTime && Date.now() < new Date(expirationTime).getTime()) {
+        const timeUntilExpiration =
+          new Date(expirationTime).getTime() - Date.now();
+      }
     }
+
+    console.log("Token is invalid");
   };
 
   // Function to check if the user is logged in, the way I am doing that
@@ -177,9 +225,12 @@ class App extends React.Component {
       );
 
       const userProfile = response.data;
-      console.log("getUserInfo", userProfile);
       this.setState({ userInfo: userProfile });
       this.setState({ isLoggedIn: true });
+      this.setState({
+        previewProfilePicture: this.state.userInfo.profilePicture,
+      });
+      console.log(this.state.userInfo);
     } catch (error) {
       console.error(error.response.data);
     }
@@ -204,9 +255,15 @@ class App extends React.Component {
         this.setState({ isLoggedIn: true });
         localStorage.setItem("signedIn", "true");
         await this.getUserInfo();
-        console.log("user is logged in!");
-        if (window.location.pathname !== "/profile") {
+        if (window.location.pathname === "/") {
           window.location.replace("http://localhost:3000/profile");
+          return;
+        } else if (window.location.pathname === "/settings") {
+          console.log("on settings page already");
+          return;
+        } else if (window.location.pathname === "/profile") {
+          console.log("on profile page already");
+          return;
         }
       } else {
         this.setState({ isLoggedIn: false });
@@ -219,6 +276,7 @@ class App extends React.Component {
     }
   };
 
+  // Same as the function above kinda.
   checkIfNavDropDownIsOpen = () => {
     if (this.state.isNavDropDownOpen === true) {
       this.setState({ isNavDropDownOpen: false });
@@ -227,6 +285,7 @@ class App extends React.Component {
     }
   };
 
+  // Yeah
   closeNavDropDownOnFocus = () => {
     this.setState({ isNavDropDownOpen: false });
   };
@@ -247,6 +306,65 @@ class App extends React.Component {
     this.setState({ password2: input });
   };
 
+  checkIfPhotoCardIsOpen = () => {
+    if (this.state.isPhotoCardOpen === true) {
+      this.setState({ isPhotoCardOpen: false });
+    } else if (this.state.isPhotoCardOpen === false) {
+      this.setState({ isPhotoCardOpen: true });
+    }
+  };
+
+  updateNewName = (input) => {
+    this.setState({ newName: input });
+    console.log(this.state.newName + "testing");
+  };
+
+  updateNewBio = (input) => {
+    this.setState({ newBio: input });
+  };
+
+  updateNewPhone = (input) => {
+    this.setState({ newPhone: input });
+  };
+
+  updateNewEmail = (input) => {
+    this.setState({ newEmail: input });
+  };
+
+  updateNewPassword = (input) => {
+    this.setState({ newPassword: input });
+  };
+
+  submitUpdateInfo = async () => {
+    // this function will update the users info in the database from the states of the inputs
+    // and then it will update the state of the userInfo to the new info.
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/users/update",
+        {
+          newProfilePicture: this.state.previewProfilePicture,
+          newName: this.state.newName,
+          newBio: this.state.newBio,
+          newPhone: this.state.newPhone,
+          newEmail: this.state.newEmail,
+          newPassword: this.state.newPassword,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      this.getUserInfo();
+      window.location.replace("http://localhost:3000/profile");
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
+
+  twitterAuth = async () => {
+    window.open("http://localhost:5000/api/users/auth/twitter", "_self");
+  };
+
   // Where the project is rendered, also deals with routing & loading screen
   // (should just make a loading component.) in here.
   render() {
@@ -262,6 +380,7 @@ class App extends React.Component {
             registerUserFunction={this.registerUser}
             registerError={this.state.registerError}
             registerErrorMsg={this.state.registerErrorMsg}
+            twitterAuth={this.twitterAuth}
           />
         ),
       },
@@ -272,13 +391,14 @@ class App extends React.Component {
             loginUser={this.loginUser}
             updateEmail={this.updateEmail}
             updatePass={this.updatePass}
+            twitterAuth={this.twitterAuth}
           />
         ),
       },
       {
         path: "/profile",
         element: (
-          <ProtectedRoute
+          <ProtectedRouteProfile
             userInfo={this.state.userInfo}
             isNavDropDownOpen={this.state.isNavDropDownOpen}
             checkIfNavDropDownIsOpen={this.checkIfNavDropDownIsOpen}
@@ -288,7 +408,51 @@ class App extends React.Component {
             path="/profile"
           >
             <Profile />
-          </ProtectedRoute>
+          </ProtectedRouteProfile>
+        ),
+      },
+      {
+        path: "/settings",
+        element: (
+          <ProtectedRouteSettings
+            userInfo={this.state.userInfo}
+            isNavDropDownOpen={this.state.isNavDropDownOpen}
+            checkIfNavDropDownIsOpen={this.checkIfNavDropDownIsOpen}
+            signOutUser={this.signOutUser}
+            closeNavDropDownOnFocus={this.closeNavDropDownOnFocus}
+            isLoggedIn={this.state.isLoggedIn}
+            isPhotoCardOpen={this.state.isPhotoCardOpen}
+            checkIfPhotoCardIsOpen={this.checkIfPhotoCardIsOpen}
+            handleProfilePictureChange={this.handleProfilePictureChange}
+            previewProfilePicture={this.state.previewProfilePicture}
+            updateNewName={this.updateNewName}
+            updateNewBio={this.updateNewBio}
+            updateNewPhone={this.updateNewPhone}
+            updateNewEmail={this.updateNewEmail}
+            updateNewPassword={this.updateNewPassword}
+            submitUpdateInfo={this.submitUpdateInfo}
+            path="/settings"
+          >
+            <Settings
+              userInfo={this.state.userInfo}
+              isNavDropDownOpen={this.state.isNavDropDownOpen}
+              checkIfNavDropDownIsOpen={this.checkIfNavDropDownIsOpen}
+              signOutUser={this.signOutUser}
+              closeNavDropDownOnFocus={this.closeNavDropDownOnFocus}
+              isLoggedIn={this.state.isLoggedIn}
+              isPhotoCardOpen={this.state.isPhotoCardOpen}
+              checkIfPhotoCardIsOpen={this.checkIfPhotoCardIsOpen}
+              handleProfilePictureChange={this.handleProfilePictureChange}
+              previewProfilePicture={this.state.previewProfilePicture}
+              updateNewName={this.updateNewName}
+              updateNewBio={this.updateNewBio}
+              updateNewPhone={this.updateNewPhone}
+              updateNewEmail={this.updateNewEmail}
+              updateNewPassword={this.updateNewPassword}
+              submitUpdateInfo={this.submitUpdateInfo}
+              path="/settings"
+            />
+          </ProtectedRouteSettings>
         ),
       },
     ]);

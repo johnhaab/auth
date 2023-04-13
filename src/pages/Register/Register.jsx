@@ -18,6 +18,7 @@ const Register = ({
   registerUserFunction,
   registerError,
   registerErrorMsg,
+  twitterAuth,
 }) => {
   return (
     <>
@@ -65,7 +66,7 @@ const Register = ({
                 Start coding now
               </button>
               <h3>or continue with these social profiles</h3>
-              <Socials />
+              <Socials twitterAuth={twitterAuth} />
               <p>
                 Already a member?
                 <Link to="/signin">

@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+
+  .preview-pfp {
+    width: 250px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .label {
+    font-size: 16px;
+    color: #4a4a4a;
+    margin-bottom: 0.5rem;
+  }
+  
+  .file-input,
+  .url-input {
+    font-size: 14px;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .wrapper-buttons {
+    display: flex;
+    gap: 1rem;
+    .submit-button {
+        font-size: 16px;
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      
+      .submit-button:hover {
+        background-color: #0056b3;
+      }
+    
+      .cancel-button {
+        font-size: 16px;
+        padding: 0.5rem 1rem;
+        background-color: #ff0000;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      
+      .cancel-button:hover {
+        background-color: #b30000;
+      }
+  }

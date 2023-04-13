@@ -4,7 +4,7 @@ import { BsTwitter, BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 
 import "./Socials.scss";
 
-const Socials = () => {
+const Socials = ({ twitterAuth }) => {
   return (
     <div className="container-socials">
       <div className="google">
@@ -13,7 +13,7 @@ const Socials = () => {
       <div className="facebook">
         <BsFacebook />
       </div>
-      <div className="twitter">
+      <div className="twitter" onClick={() => twitterAuth()}>
         <BsTwitter />
       </div>
       <div className="github">
