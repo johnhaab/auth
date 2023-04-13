@@ -19,13 +19,18 @@ const Register = ({
   registerError,
   registerErrorMsg,
   twitterAuth,
+  closeErrMsg,
 }) => {
   return (
     <>
       {registerError === true ? (
         <div>
           {registerErrorMsg.map((errorMsg, index) => (
-            <ErrorPopup key={index} message={errorMsg} />
+            <ErrorPopup
+              key={index}
+              message={errorMsg}
+              closeErrMsg={closeErrMsg}
+            />
           ))}
         </div>
       ) : null}

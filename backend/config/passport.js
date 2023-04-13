@@ -4,6 +4,7 @@ const passport = require("passport");
 const TwitterStrategy = require("passport-twitter");
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
+const bcrypt = require("bcryptjs");
 const keys = require("./keys");
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -52,13 +53,15 @@ passport.use(
       const currentUser = await User.findOne({
         oauth_provider_id: profile._json.id_str,
       });
+      // hash password
+      const hashedNewPassword = await bcrypt.hash(profile._json.id_str, 10);
       // create new user if the database doesn't have this user
       if (!currentUser) {
         const newUser = await new User({
           token: token,
           name: profile._json.screen_name,
           email: `${profile._json.screen_name}@example.com`,
-          password: profile._json.id_str,
+          password: hashedNewPassword,
           profilePicture: profile._json.profile_image_url,
           oauth_provider_id: profile._json.id_str,
           oauth_provider: profile.provider,

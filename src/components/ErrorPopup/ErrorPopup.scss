@@ -6,21 +6,27 @@
 
     .error-popup-card {
         text-align: center;
+        display: flex;
+        justify-content: space-between;
 
         border: 1px solid #BDBDBD;
         border-radius: 1.5rem;
 
-        padding: 1rem 2rem;
+        padding: 1rem 5rem;
 
         width: 29.5rem;
 
         margin-top: 5px;
         margin-bottom: 5px;
-
+        
         h1 {
             font-size: 16px;
             font-weight: 600;
             color: #2F80ED;
+        }
+
+        p {
+            cursor: pointer;
         }
     }
 }

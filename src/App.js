@@ -20,8 +20,10 @@ class App extends React.Component {
       theme: "light",
       data: [],
       error: null,
+      loginError: false,
       registerError: false,
       registerErrorMsg: [],
+      loginErrorMsg: [],
       userInfo: null,
       isNavDropDownOpen: false,
       uploadedProfilePicUrl: null,
@@ -144,12 +146,18 @@ class App extends React.Component {
           this.setState({ userInfo: userProfile });
           window.location.replace("http://localhost:3000/profile");
         } catch (error) {
-          console.error(error.response.data);
+          console.log(error);
         }
       })
 
       .catch((error) => {
-        console.log("error!" + error);
+        // Handle failure
+        const errorMessages = Object.values(error.response.data);
+        this.setState({
+          loginError: true,
+          loginErrorMsg: errorMessages,
+        });
+        console.log("123" + this.state.loginErrorMsg);
       });
   };
 
@@ -361,6 +369,16 @@ class App extends React.Component {
     }
   };
 
+  closeErrMsg = () => {
+    console.log("clicked");
+    this.setState({
+      registerError: false,
+      registerErrorMsg: [],
+      loginError: false,
+      loginErrorMsg: [],
+    });
+  };
+
   twitterAuth = async () => {
     window.open("http://localhost:5000/api/users/auth/twitter", "_self");
   };
@@ -380,6 +398,7 @@ class App extends React.Component {
             registerUserFunction={this.registerUser}
             registerError={this.state.registerError}
             registerErrorMsg={this.state.registerErrorMsg}
+            closeErrMsg={this.closeErrMsg}
             twitterAuth={this.twitterAuth}
           />
         ),
@@ -392,6 +411,9 @@ class App extends React.Component {
             updateEmail={this.updateEmail}
             updatePass={this.updatePass}
             twitterAuth={this.twitterAuth}
+            loginError={this.state.loginError}
+            closeErrMsg={this.closeErrMsg}
+            loginErrorMsg={this.state.loginErrorMsg}
           />
         ),
       },
