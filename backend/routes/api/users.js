@@ -28,6 +28,7 @@ router.get("/auth/logout", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  console.log("1");
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -52,6 +53,7 @@ router.post("/login", (req, res) => {
           name: user.name,
         };
         // Sign token
+        console.log("2");
         jwt.sign(
           payload,
           keys.secretOrKey,
@@ -66,8 +68,8 @@ router.post("/login", (req, res) => {
             }
 
             const cookieOptions = {
-              httpOnly: false,
-              sameSite: "strict",
+              httpOnly: true,
+              sameSite: "none",
               secure: process.env.NODE_ENV === "production",
               maxAge: 31556926 * 1000, // 1 year in milliseconds
               path: "/",
@@ -76,9 +78,11 @@ router.post("/login", (req, res) => {
             const expiresIn = 24 * 60 * 60 * 1000; // 24 hours in milliseconds.
             const expirationTime = Date.now() + expiresIn;
 
-            const cookie = `accessToken=${token}; Path=/; expires=${expirationTime}; SameSite=Strict; Max-Age=${
+            const cookie = `accessToken=${token}; Path=/; expires=${expirationTime}; SameSite=none; Max-Age=${
               cookieOptions.maxAge
             };${cookieOptions.secure ? "Secure" : ""}`;
+
+            console.log("3");
 
             res.setHeader("Set-Cookie", cookie);
             res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -146,6 +150,7 @@ router.get("/profile", authenticate, (req, res) => {
       }
     })
     .catch((err) => {
+      console.error("Error fetching user data:", err);
       res.status(500).json({ message: "Error fetching user data" });
     });
 });
@@ -242,6 +247,7 @@ router.get(
     failureRedirect: "/auth/login/failed",
   }),
   (req, res) => {
+    console.log(req.user);
     // Get the token parameter from the URL and assign it to the id property of the payload object
     const payload = {
       id: req.user._id,
@@ -258,13 +264,13 @@ router.get(
       (err, token) => {
         if (err) {
           // Handle the error
-          console.log(err + "// : // : // : error signing token");
+          console.log("error signing token, " + err);
           return;
         }
 
         const cookieOptions = {
-          httpOnly: false,
-          sameSite: "strict",
+          httpOnly: true,
+          sameSite: "none",
           secure: process.env.NODE_ENV === "production",
           maxAge: 31556926 * 1000, // 1 year in milliseconds
           path: "/",
@@ -273,14 +279,16 @@ router.get(
         const expiresIn = 24 * 60 * 60 * 1000; // 24 hours in milliseconds.
         const expirationTime = Date.now() + expiresIn;
 
-        const cookie = `accessToken=${token}; Path=/; expires=${expirationTime}; SameSite=Strict; Max-Age=${
+        const cookie = `accessToken=${token}; Path=/; expires=${expirationTime}; SameSite=none; Max-Age=${
           cookieOptions.maxAge
         };${cookieOptions.secure ? "Secure" : ""}`;
+
+        console.log("5");
 
         res.setHeader("Set-Cookie", cookie);
         res.setHeader("Access-Control-Allow-Credentials", "true");
 
-        res.redirect("http://localhost:3000/profile");
+        res.redirect("http://209.192.200.84:3000/auth/profile");
       }
     );
   }

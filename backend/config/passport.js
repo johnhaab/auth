@@ -3,8 +3,8 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const passport = require("passport");
 const TwitterStrategy = require("passport-twitter");
 const mongoose = require("mongoose");
-const User = mongoose.model("users");
 const bcrypt = require("bcryptjs");
+const User = mongoose.model("users");
 const keys = require("./keys");
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -46,7 +46,7 @@ passport.use(
     {
       consumerKey: keys.twitterConsumerKey,
       consumerSecret: keys.twitterConsumerSecret,
-      callbackURL: "http://localhost:5000/api/users/auth/twitter/redirect",
+      callbackURL: "http://209.192.200.84:5000/api/users/auth/twitter/redirect",
     },
     async (token, tokenSecret, profile, done) => {
       // find current user in UserModel
