@@ -56,7 +56,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<p align="center">Auth is a project I've spent the last 2/3 weeks on building using the MERN stack. As a beginner in web development (just shy of 4 1/2 months of studying full stack programming in general) it was a challenge for sure. I learned a LOT on this project, I learned all about cookies, https and http, cors, and mainly new backend things overall it was super fun but also there were times I wasn't sure if it was every going to work haha. I know im not the only one!</p>
+<p align="center">Auth is a project I've spent the last 2/3 weeks on building using the MERN stack. As a beginner in web development (just shy of 4 1/2 months of studying full stack programming in general) it was a challenge for sure. I learned a LOT on this project, I learned all about cookies, password encryption, session tokens, 0auth, https and http, cors, and mainly new backend things overall it was super fun but also there were times I wasn't sure if it was every going to work haha. I know im not the only one!</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
