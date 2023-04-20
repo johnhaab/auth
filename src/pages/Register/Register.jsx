@@ -74,7 +74,7 @@ const Register = ({
               <Socials twitterAuth={twitterAuth} />
               <p>
                 Already a member?
-                <Link to="/signin">
+                <Link to="/auth/signin">
                   <span>Login</span>
                 </Link>
               </p>

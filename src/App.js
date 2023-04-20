@@ -45,19 +45,6 @@ class App extends React.Component {
     });
     this.getUserInfo();
     this.checkIfUserIsLoggedIn();
-    // this.checkSessionToken().then((isValidToken) => {
-    //   if (!isValidToken) {
-    //     this.setState({ isLoggedIn: false });
-    //     Cookies.remove("sessionToken");
-    //     localStorage.removeItem("signedIn");
-    //     if (window.location === "/signin") {
-    //       return;
-    //     } else {
-    //       window.location.replace = "/signin";
-    //     }
-    //   }
-    // });
-    console.log("pfp" + this.state.userInfo.profilePicture);
   };
 
   handleProfilePictureChange = (input) => {
@@ -86,11 +73,11 @@ class App extends React.Component {
     };
 
     await axios
-      .post("http://localhost:5000/api/users/register", data, config)
+      .post("http://209.192.200.84:5000/api/users/register", data, config)
       .then((response) => {
         // Handle success
         console.log(response.data);
-        window.location.replace("http://localhost:3000/signin");
+        window.location.replace("http://209.192.200.84:3000/auth/signin");
       })
       .catch((error) => {
         // Handle failure
@@ -126,7 +113,7 @@ class App extends React.Component {
     };
 
     await axios
-      .post("http://localhost:5000/api/users/login", data, config, {
+      .post("http://209.192.200.84:5000/api/users/login", data, config, {
         withCredentials: true,
       })
       .then(async (response) => {
@@ -136,7 +123,7 @@ class App extends React.Component {
         // This is the api call that fetches the users info from the backend.
         try {
           const response = await axios.get(
-            "http://localhost:5000/api/users/profile",
+            "http://209.192.200.84:5000/api/users/profile",
             {
               withCredentials: true, // Include the session token cookie in the request
             }
@@ -144,7 +131,7 @@ class App extends React.Component {
 
           const userProfile = response.data;
           this.setState({ userInfo: userProfile });
-          window.location.replace("http://localhost:3000/profile");
+          window.location.replace("http://209.192.200.84:3000/auth/profile");
         } catch (error) {
           console.log(error);
         }
@@ -166,13 +153,13 @@ class App extends React.Component {
   signOutUser = async () => {
     console.log("signOutUser");
     await axios
-      .get("http://localhost:5000/api/users/auth/logout", {
+      .get("http://209.192.200.84:5000/api/users/auth/logout", {
         withCredentials: true,
       })
       .then((response) => {
         console.log(response.data);
         localStorage.removeItem("signedIn");
-        window.location.replace("http://localhost:3000/signin");
+        window.location.replace("http://209.192.200.84:3000/auth/signin");
       })
       .catch((error) => {});
   };
@@ -184,7 +171,7 @@ class App extends React.Component {
     formData.append("file", file);
 
     await axios
-      .post("http://209.192.200.84:3000/api/image-to-url/upload", formData)
+      .post("http://209.192.200.84:3232/api/image-to-url/upload", formData)
       .then((response) => {
         console.log(response.data);
         this.setState({ uploadedProfilePicUrl: response.data });
@@ -226,7 +213,7 @@ class App extends React.Component {
     // Fetch user info using token
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/users/profile",
+        "http://209.192.200.84:5000/api/users/profile",
         {
           withCredentials: true, // Include the session token cookie in the request
         }
@@ -252,9 +239,12 @@ class App extends React.Component {
   checkIfUserIsLoggedIn = async () => {
     console.log(this.state.userInfo);
     try {
-      const response = await axios.get("http://localhost:5000/api/users/auth", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "http://209.192.200.84:5000/api/users/auth",
+        {
+          withCredentials: true,
+        }
+      );
       const { isAuthenticated } = response.data;
       console.log(isAuthenticated);
 
@@ -263,13 +253,13 @@ class App extends React.Component {
         this.setState({ isLoggedIn: true });
         localStorage.setItem("signedIn", "true");
         await this.getUserInfo();
-        if (window.location.pathname === "/") {
-          window.location.replace("http://localhost:3000/profile");
+        if (window.location.pathname === "/auth") {
+          window.location.replace("http://209.192.200.84:3000/auth/profile");
           return;
-        } else if (window.location.pathname === "/settings") {
+        } else if (window.location.pathname === "/auth/settings") {
           console.log("on settings page already");
           return;
-        } else if (window.location.pathname === "/profile") {
+        } else if (window.location.pathname === "/auth/profile") {
           console.log("on profile page already");
           return;
         }
@@ -348,7 +338,7 @@ class App extends React.Component {
     // and then it will update the state of the userInfo to the new info.
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/users/update",
+        "http://209.192.200.84:5000/api/users/update",
         {
           newProfilePicture: this.state.previewProfilePicture,
           newName: this.state.newName,
@@ -363,7 +353,7 @@ class App extends React.Component {
       );
       console.log(response.data);
       this.getUserInfo();
-      window.location.replace("http://localhost:3000/profile");
+      window.location.replace("http://209.192.200.84:3000/auth/profile");
     } catch (error) {
       console.error(error.response.data);
     }
@@ -380,7 +370,7 @@ class App extends React.Component {
   };
 
   twitterAuth = async () => {
-    window.open("http://localhost:5000/api/users/auth/twitter", "_self");
+    window.open("http://209.192.200.84:5000/api/users/auth/twitter", "_self");
   };
 
   // Where the project is rendered, also deals with routing & loading screen
@@ -389,7 +379,7 @@ class App extends React.Component {
     // Create a router with the routes I want to use.
     const router = createBrowserRouter([
       {
-        path: "/",
+        path: "/auth",
         element: (
           <Register
             updateEmail={this.updateEmail}
@@ -404,7 +394,7 @@ class App extends React.Component {
         ),
       },
       {
-        path: "/signin",
+        path: "/auth/signin",
         element: (
           <Signin
             loginUser={this.loginUser}
@@ -418,7 +408,7 @@ class App extends React.Component {
         ),
       },
       {
-        path: "/profile",
+        path: "/auth/profile",
         element: (
           <ProtectedRouteProfile
             userInfo={this.state.userInfo}
@@ -434,7 +424,7 @@ class App extends React.Component {
         ),
       },
       {
-        path: "/settings",
+        path: "/auth/settings",
         element: (
           <ProtectedRouteSettings
             userInfo={this.state.userInfo}
@@ -453,7 +443,7 @@ class App extends React.Component {
             updateNewEmail={this.updateNewEmail}
             updateNewPassword={this.updateNewPassword}
             submitUpdateInfo={this.submitUpdateInfo}
-            path="/settings"
+            path="/auth/settings"
           >
             <Settings
               userInfo={this.state.userInfo}
@@ -472,7 +462,7 @@ class App extends React.Component {
               updateNewEmail={this.updateNewEmail}
               updateNewPassword={this.updateNewPassword}
               submitUpdateInfo={this.submitUpdateInfo}
-              path="/settings"
+              path="/auth/settings"
             />
           </ProtectedRouteSettings>
         ),

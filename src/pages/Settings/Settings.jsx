@@ -62,7 +62,7 @@ const Settings = ({
             ) : null}
             <section className="settings-body">
               <div className="user-settings-card">
-                <Link to="/profile" style={{ textDecoration: "none" }}>
+                <Link to="/auth/profile" style={{ textDecoration: "none" }}>
                   <div className="settings-go-back">
                     <div className="arrow-left-back">
                       <BsChevronLeft />

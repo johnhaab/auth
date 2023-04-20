@@ -16,7 +16,7 @@ const NavDropDown = ({ signOutUser, closeNavDropDownOnFocus }) => {
         <div className="card-nav-drop-down">
           <div className="nav-drop-down-one">
             <Link
-              to="/profile"
+              to="/auth/profile"
               style={{ textDecoration: "none", color: "#4F4F4F" }}
             >
               <div className="content-dd-one">

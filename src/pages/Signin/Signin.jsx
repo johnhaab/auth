@@ -68,7 +68,10 @@ const Signin = ({
               <Socials twitterAuth={twitterAuth} />
               <p>
                 Don’t have an account yet?
-                <Link to="/">
+                <Link
+                  to="/auth
+                "
+                >
                   <span>Register</span>
                 </Link>
               </p>
